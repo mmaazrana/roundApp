@@ -10,7 +10,6 @@ class LoginButton extends StatelessWidget {
     Color color = Theme.of(context).primaryColor;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(25, 10, 25, 10),
       child: TextButton(
         onPressed: () => {},
         child: Text(text,

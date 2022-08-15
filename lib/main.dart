@@ -1,5 +1,7 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:roundapp/screens/splashScreen.dart';
 import 'package:roundapp/widgets/buttons/loginButton.dart';
 
 void main() {
@@ -13,11 +15,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Round App',
       theme: ThemeData(
         textTheme: GoogleFonts.latoTextTheme(),
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.grey,
         primaryColor: const Color(0xFF7801C1),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+                width: 1, color: Color.fromARGB(50, 11, 12, 11)),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+                width: 1, color: Color.fromARGB(50, 11, 12, 11)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(
+                width: 1, color: Color.fromARGB(50, 119, 1, 193)),
+          ),
+        ),
       ),
       home: const MyHomePage(),
     );
@@ -34,28 +52,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            LoginButton(
-              text: 'Sign In',
-            ),
-            LoginButton(
-              text: 'Sign Up',
-            ),
-          ],
-        ),
+    return AnimatedSplashScreen(
+      splash: 'assets/images/logo.png',
+      nextScreen: const Scaffold(
+        body: SplashScreen(),
       ),
     );
   }
