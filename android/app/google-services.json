@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "656049603780",
+    "project_id": "round-app-63f07",
+    "storage_bucket": "round-app-63f07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656049603780:android:d91e3aa41ade63f57b3591",
+        "android_client_info": {
+          "package_name": "com.round.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656049603780-0quhb6piiiei7r9es7r0p5tvei6dtvf3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM5BBLFLeqyqS3TziaZVg7iBL50jUx1Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656049603780-0quhb6piiiei7r9es7r0p5tvei6dtvf3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "656049603780-on71cc65qftaf3dtelbdhv4b9b8fc28r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.round.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

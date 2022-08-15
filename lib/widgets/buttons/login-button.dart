@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
   final String text;
+  final Function onPressed;
 
-  const LoginButton({Key? key, required this.text}) : super(key: key);
+  const LoginButton({Key? key, required this.text, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class LoginButton extends StatelessWidget {
 
     return Container(
       child: TextButton(
-        onPressed: () => {},
+        onPressed: onPressed(),
         child: Text(text,
             style: const TextStyle(
               color: Colors.white,

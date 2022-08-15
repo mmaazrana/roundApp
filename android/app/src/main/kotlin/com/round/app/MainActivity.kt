@@ -1,4 +1,4 @@
-package com.example.roundapp
+package com.round.app
 
 import io.flutter.embedding.android.FlutterActivity
 
