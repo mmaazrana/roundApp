@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../widgets/login-form.dart';
-import '../widgets/signup-form.dart';
+import '../widgets/login_form.dart';
+import '../widgets/signup_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -15,18 +15,28 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _tabIndex = 0;
+
+  _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      setState(() {
+        _tabIndex = _tabController.index;
+      });
+    }
+  }
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(_handleTabSelection);
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  //   _tabController.dispose();
-  // }
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,25 +151,12 @@ class _LoginScreenState extends State<LoginScreen>
                                 ],
                               ),
                             ),
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                  maxHeight: max(
-                                      MediaQuery.of(context).size.height *
-                                          0.565,
-                                      390)),
-                              child: TabBarView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                controller: _tabController,
-                                children: [
-                                  LoginForm(
-                                      tabController: _tabController,
-                                      color: color),
-                                  SignUpForm(
-                                      tabController: _tabController,
-                                      color: color),
-                                ],
-                              ),
-                            ),
+                            [
+                              LoginForm(
+                                  tabController: _tabController, color: color),
+                              SignUpForm(
+                                  tabController: _tabController, color: color),
+                            ][_tabIndex],
                           ],
                         )),
                   ),

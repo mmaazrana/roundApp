@@ -1,10 +1,12 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:roundapp/auth/auth.dart';
-import 'package:roundapp/screens/splash-screen.dart';
+import 'package:roundapp/screens/dashboard_screen.dart';
+import 'package:roundapp/screens/splash_screen.dart';
 
-import 'buttons/login-button.dart';
+import 'buttons/login_button.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -22,36 +24,49 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? errorMessage = 'No Error';
   final User? user = Auth().currentUser;
   bool isLogin = true;
+  bool visible = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
-  Future<void> signOut() async {
-    await Auth().signOut();
-  }
+  late ScaffoldMessengerState snackbar;
 
   Future<void> _signInWithEmailAndPassword() async {
     try {
-      await Auth().signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Signed In Successfull'),
-      ));
+      await Auth()
+          .signInWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim())
+          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text('Signed In Successfull'),
+                backgroundColor: widget.color,
+                behavior: SnackBarBehavior.floating,
+                margin: const EdgeInsets.all(10),
+                elevation: 15,
+              )))
+          .then((value) => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => const DashBoardScreen())));
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(e.message!),
-        ));
-      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message!),
+        backgroundColor: widget.color,
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(10),
+        elevation: 15,
+      ));
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    Color color = Theme.of(context).primaryColor;
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
@@ -82,13 +97,18 @@ class _LoginFormState extends State<LoginForm> {
                 autocorrect: false,
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Please enter your email';
+                  }
+                  if (!EmailValidator.validate(value)) {
+                    return 'Please enter a valid email';
                   }
                   return null;
                 },
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(16, 14, 16, 14),
+                  alignLabelWithHint: true,
                   hintText: 'Enter Email',
+                  errorStyle: TextStyle(fontSize: 12, height: 0.75),
                 ),
               ),
             ],
@@ -113,17 +133,47 @@ class _LoginFormState extends State<LoginForm> {
               ),
               TextFormField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: !visible,
                 autocorrect: false,
                 validator: (String? value) {
                   if (value!.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Please enter your password';
+                  }
+                  if (value.length <= 5) {
+                    return 'Password must be longer than 6 characters';
+                  }
+                  if (value.length > 20) {
+                    return 'Password must not be longer than 20 characters';
+                  }
+                  if (!(RegExp(r'(?=.*[A-Z])\w+').hasMatch(value))) {
+                    return 'Password must contain one uppercase letter';
+                  }
+                  if (!(RegExp(r'(?=.*[a-z])\w+').hasMatch(value))) {
+                    return 'Password must contain one lowercase letter';
+                  }
+                  if (!(RegExp(r'(?=.*?[0-9])').hasMatch(value))) {
+                    return 'Password must contain one numeric character';
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(16, 14, 16, 14),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
                   hintText: 'Enter Password',
+                  alignLabelWithHint: true,
+                  errorStyle: const TextStyle(fontSize: 12, height: 0.75),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      // Based on passwordVisible state choose the icon
+                      visible ? Icons.visibility : Icons.visibility_off,
+                      color: widget.color,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        visible = !visible;
+                      });
+                    },
+                  ),
                 ),
               ),
             ],
@@ -141,27 +191,21 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(
             height: 40,
           ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //       content: Text('Yay! A SnackBar!'),
-          //     ));
-          //   },
-          //   child: Text("Toast!"),
-          // ),
           TextButton(
             onPressed: () {
-              _signInWithEmailAndPassword();
+              if (_formKey.currentState!.validate()) {
+                _signInWithEmailAndPassword();
+              } else {}
             },
-            child: Text("Sign In",
-                style: const TextStyle(
+            child: const Text("Sign In",
+                style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 )),
             style: ButtonStyle(
               minimumSize: MaterialStateProperty.all(const Size.fromHeight(1)),
-              backgroundColor: MaterialStateProperty.all(color),
+              backgroundColor: MaterialStateProperty.all(widget.color),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100), // <-- Radius
               )),
