@@ -1,8 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:roundapp/screens/email_verification.dart';
 
-import '../auth/auth.dart';
+import '../utils/auth.dart';
 import 'buttons/login_button.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -38,15 +39,24 @@ class _SignUpFormState extends State<SignUpForm> {
     try {
       await Auth()
           .createUserWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim())
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+            name: nameController.text.trim(),
+          )
           .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: const Text('Code Sent to email'),
                 backgroundColor: widget.color,
                 behavior: SnackBarBehavior.floating,
                 margin: const EdgeInsets.all(10),
                 elevation: 15,
-              )));
+              )))
+          .then(
+            (value) => Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const EmailVerification(),
+              ),
+            ),
+          );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message!),
@@ -95,6 +105,8 @@ class _SignUpFormState extends State<SignUpForm> {
               TextFormField(
                 controller: nameController,
                 autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textInputAction: TextInputAction.done,
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter your name';
@@ -130,6 +142,8 @@ class _SignUpFormState extends State<SignUpForm> {
               TextFormField(
                 controller: emailController,
                 autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textInputAction: TextInputAction.done,
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
@@ -164,6 +178,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 controller: passwordController,
                 obscureText: !visible,
                 autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textInputAction: TextInputAction.done,
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter your password';
@@ -223,6 +239,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 controller: passwordConfirmationController,
                 obscureText: !confirmationVisible,
                 autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textInputAction: TextInputAction.done,
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please re enter your password';

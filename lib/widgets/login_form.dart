@@ -2,8 +2,11 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:roundapp/auth/auth.dart';
+import 'package:roundapp/screens/choice_screen.dart';
+import 'package:roundapp/screens/forgot_password_screen.dart';
+import 'package:roundapp/utils/auth.dart';
 import 'package:roundapp/screens/dashboard_screen.dart';
+import 'package:roundapp/screens/email_verification.dart';
 import 'package:roundapp/screens/splash_screen.dart';
 
 import 'buttons/login_button.dart';
@@ -37,16 +40,35 @@ class _LoginFormState extends State<LoginForm> {
           .signInWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim())
-          .then((value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text('Signed In Successfull'),
-                backgroundColor: widget.color,
-                behavior: SnackBarBehavior.floating,
-                margin: const EdgeInsets.all(10),
-                elevation: 15,
-              )))
-          .then((value) => Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                  builder: (context) => const DashBoardScreen())));
+          .then(
+            (value) => Auth().currentUser!.emailVerified
+                ? Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(
+                      builder: (context) => const ChoiceScreen(),
+                    ))
+                    .then((value) =>
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Signed In Successfully'),
+                          backgroundColor: widget.color,
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.all(10),
+                          elevation: 15,
+                        )))
+                : Navigator.of(context)
+                    .pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const EmailVerification(),
+                      ),
+                    )
+                    .then((value) =>
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Email sent Successfully'),
+                          backgroundColor: widget.color,
+                          behavior: SnackBarBehavior.floating,
+                          margin: const EdgeInsets.all(10),
+                          elevation: 15,
+                        ))),
+          );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message!),
@@ -95,6 +117,8 @@ class _LoginFormState extends State<LoginForm> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textInputAction: TextInputAction.done,
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter your email';
@@ -135,6 +159,8 @@ class _LoginFormState extends State<LoginForm> {
                 controller: passwordController,
                 obscureText: !visible,
                 autocorrect: false,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textInputAction: TextInputAction.done,
                 validator: (String? value) {
                   if (value!.isEmpty) {
                     return 'Please enter your password';
@@ -186,7 +212,10 @@ class _LoginFormState extends State<LoginForm> {
                 fontSize: 12,
               ),
             ),
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ForgotPasswordScreen()))
+            },
           ),
           const SizedBox(
             height: 40,

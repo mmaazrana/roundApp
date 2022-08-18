@@ -54,8 +54,9 @@ class SplashScreen extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(41, 0, 41, 0),
                         child: TextButton(
                           onPressed: () => {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const LoginScreen()))
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()))
                           },
                           child: Text(
                             "Get Started",
