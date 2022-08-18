@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	
+<string>656049603780-on71cc65qftaf3dtelbdhv4b9b8fc28r.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	
+<string>com.googleusercontent.apps.656049603780-on71cc65qftaf3dtelbdhv4b9b8fc28r</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCcYoo5G8xOxECz34bx8WDynjlxAowo_-Q</string>
+	<key>GCM_SENDER_ID</key>
+	<string>656049603780</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.round.app</string>
+	<key>PROJECT_ID</key>
+	<string>round-app-63f07</string>
+	<key>STORAGE_BUCKET</key>
+	<string>round-app-63f07.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:656049603780:ios:91d429693365f2f07b3591</string>
+</dict>
+</plist>
