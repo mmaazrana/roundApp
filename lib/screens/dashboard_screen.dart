@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -15,10 +17,9 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
-  double userNumber = 10435;
-  double totalNumber = 25756;
+  double userNumber = 1;
+  double totalNumber = 1;
   int _selectedIndex = 0;
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -28,6 +29,30 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     Color color = Theme.of(context).primaryColor;
+
+    FirebaseFirestore.instance
+        .collection('Waitlist')
+        .doc('waitlist')
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> data =
+            documentSnapshot.data()! as Map<String, dynamic>;
+        totalNumber = double.parse(data['length'].toString()) + 176;
+      }
+    });
+
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(Auth().currentUser!.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> data =
+            documentSnapshot.data()! as Map<String, dynamic>;
+        userNumber = double.parse(data['number'].toString()) + 176;
+      }
+    });
 
     return WillPopScope(
       onWillPop: () {
@@ -103,7 +128,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         children: [
                           PieChart(
                             dataMap: {
-                              "number": userNumber,
+                              "number": totalNumber - userNumber,
                             },
                             animationDuration:
                                 const Duration(milliseconds: 1500),

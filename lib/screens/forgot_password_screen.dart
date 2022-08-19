@@ -142,7 +142,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         sendResetPasswordEmail();
                       },
                       child: const Text(
-                        "Resend Email",
+                        "Send Email",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

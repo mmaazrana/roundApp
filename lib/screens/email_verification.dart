@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:roundapp/screens/choice_screen.dart';
 import 'package:roundapp/screens/dashboard_screen.dart';
 import 'package:roundapp/screens/login_screen.dart';
+import 'package:roundapp/utils/add_to_waitlist.dart';
+
+import '../utils/auth.dart';
 
 class EmailVerification extends StatefulWidget {
   const EmailVerification({Key? key}) : super(key: key);
@@ -25,7 +28,7 @@ class _EmailVerificationState extends State<EmailVerification> {
   void initState() {
     super.initState();
     activeCounter();
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    isEmailVerified = Auth().currentUser!.emailVerified;
     if (!isEmailVerified) {
       sendVerificationEmail();
       timer = Timer.periodic(
@@ -57,7 +60,7 @@ class _EmailVerificationState extends State<EmailVerification> {
 
   Future sendVerificationEmail() async {
     try {
-      final user = FirebaseAuth.instance.currentUser!;
+      final user = Auth().currentUser!;
       await user.sendEmailVerification();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -71,12 +74,15 @@ class _EmailVerificationState extends State<EmailVerification> {
   }
 
   Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
+    await Auth().currentUser!.reload();
     setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      isEmailVerified = Auth().currentUser!.emailVerified;
     });
 
-    if (isEmailVerified) timer?.cancel();
+    if (isEmailVerified) {
+      timer?.cancel();
+      addUserToWaitList();
+    }
   }
 
   @override
