@@ -37,6 +37,13 @@
             {
               "client_id": "289796607424-688osssgds00pvad7miktplp0c87eki8.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "289796607424-ubjtqf34rsjoijmel9t6s91ffcqn1vkq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.round.app"
+              }
             }
           ]
         }

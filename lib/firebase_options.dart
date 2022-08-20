@@ -50,22 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAM5BBLFLeqyqS3TziaZVg7iBL50jUx1Vo',
-    appId: '1:656049603780:android:d91e3aa41ade63f57b3591',
-    messagingSenderId: '656049603780',
-    projectId: 'round-app-63f07',
-    databaseURL: 'https://round-app-63f07-default-rtdb.firebaseio.com',
-    storageBucket: 'round-app-63f07.appspot.com',
+    apiKey: 'AIzaSyAWKB6XEd6MzAd9PNew1VRnTRBmDR642TU',
+    appId: '1:289796607424:android:19517e27dbecf8a066cc25',
+    messagingSenderId: '289796607424',
+    projectId: 'roundapp-a671d',
+    storageBucket: 'roundapp-a671d.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCcYoo5G8xOxECz34bx8WDynjlxAowo_-Q',
-    appId: '1:656049603780:ios:91d429693365f2f07b3591',
-    messagingSenderId: '656049603780',
-    projectId: 'round-app-63f07',
-    databaseURL: 'https://round-app-63f07-default-rtdb.firebaseio.com',
-    storageBucket: 'round-app-63f07.appspot.com',
-    iosClientId: '656049603780-on71cc65qftaf3dtelbdhv4b9b8fc28r.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAp4h4RdsdzhFvgjEiN3BVKVwQZKRNvAtE',
+    appId: '1:289796607424:ios:4943b0014fd689dd66cc25',
+    messagingSenderId: '289796607424',
+    projectId: 'roundapp-a671d',
+    storageBucket: 'roundapp-a671d.appspot.com',
+    androidClientId: '289796607424-k1k8j5m7088g9ute556h23adn78agkjo.apps.googleusercontent.com',
+    iosClientId: '289796607424-ubjtqf34rsjoijmel9t6s91ffcqn1vkq.apps.googleusercontent.com',
     iosBundleId: 'com.round.app',
   );
 }
