@@ -46,7 +46,16 @@ dependencies:
   intl: ^0.17.0
   cloud_firestore: ^3.4.5
   flutter_spinkit: ^5.1.0
+  flutter_launcher_icons: ^0.10.0
+  flutter_app_name: ^0.1.1
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
+
+flutter_app_name:
+  name: "Round"
 
 dev_dependencies:
   flutter_test:
