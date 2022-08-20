@@ -4,19 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:roundapp/screens/email_verification.dart';
 
 import '../utils/auth.dart';
+import '../utils/loading.dart';
 import 'buttons/login_button.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({
+  SignUpForm({
     Key? key,
     required this.tabController,
     required this.color,
+    required this.isLoading,
   }) : super(key: key);
 
   final TabController tabController;
   final Color color;
+  bool isLoading;
 
   @override
   State<SignUpForm> createState() => _SignUpFormState();
@@ -28,6 +31,7 @@ class _SignUpFormState extends State<SignUpForm> {
   bool isLogin = true;
   bool visible = false;
   bool confirmationVisible = false;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -36,6 +40,9 @@ class _SignUpFormState extends State<SignUpForm> {
       TextEditingController();
 
   Future<void> _createUserWithEmailAndPassword() async {
+    setState(() {
+      widget.isLoading = true;
+    });
     try {
       await Auth()
           .createUserWithEmailAndPassword(
@@ -58,6 +65,9 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
           );
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        widget.isLoading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message!),
         backgroundColor: widget.color,

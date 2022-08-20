@@ -9,11 +9,24 @@ class Loading extends StatelessWidget {
     Color color = Theme.of(context).primaryColor;
 
     return Container(
-      color: Colors.black12,
+      padding: const EdgeInsets.all(50),
+      color: Colors.white,
       child: Center(
-        child: SpinKitChasingDots(
-          color: color,
-          size: 50.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/logo.png",
+              width: 150.0,
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            SpinKitFadingCircle(
+              color: color,
+              size: 50.0,
+            ),
+          ],
         ),
       ),
     );

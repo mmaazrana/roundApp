@@ -12,14 +12,16 @@ import 'package:roundapp/screens/splash_screen.dart';
 import 'buttons/login_button.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({
+  LoginForm({
     Key? key,
     required this.tabController,
     required this.color,
+    required this.isLoading,
   }) : super(key: key);
 
   final TabController tabController;
   final Color color;
+  bool isLoading;
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -35,6 +37,9 @@ class _LoginFormState extends State<LoginForm> {
   late ScaffoldMessengerState snackbar;
 
   Future<void> _signInWithEmailAndPassword() async {
+    setState(() {
+      widget.isLoading = true;
+    });
     try {
       await Auth()
           .signInWithEmailAndPassword(
@@ -70,6 +75,9 @@ class _LoginFormState extends State<LoginForm> {
                         ))),
           );
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        widget.isLoading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(e.message!),
         backgroundColor: widget.color,
