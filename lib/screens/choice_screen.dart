@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:roundapp/screens/dashboard_screen.dart';
+import 'package:roundapp/screens/move_to_earn_screen.dart';
+import 'package:roundapp/screens/ride_to_earn_screen.dart';
 
 import '../utils/exit_confirmation.dart';
 
@@ -58,10 +60,9 @@ class ChoiceScreen extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
+                                Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DashBoardScreen(),
+                                    builder: (context) => MoveToEarnScreen(),
                                   ),
                                 );
                               },
@@ -123,10 +124,9 @@ class ChoiceScreen extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pushReplacement(
+                                Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DashBoardScreen(),
+                                    builder: (context) => RideToEarnScreen(),
                                   ),
                                 );
                               },
