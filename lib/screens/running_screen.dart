@@ -94,113 +94,125 @@ class _RunningScreenState extends State<RunningScreen> {
         centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            RichText(
-              text: TextSpan(
-                text: "Hello Again, ",
-                style: const TextStyle(color: Colors.black54, fontSize: 16),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              RichText(
+                text: TextSpan(
+                  text: "Hello Again, ",
+                  style: const TextStyle(color: Colors.black54, fontSize: 16),
+                  children: [
+                    TextSpan(
+                        text: "${Auth().currentUser!.displayName}",
+                        style: TextStyle(
+                          color: color,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  TextSpan(
-                      text: "${Auth().currentUser!.displayName}",
-                      style: TextStyle(
-                        color: color,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  PieChart(
+                    dataMap: {
+                      "number": currentSteps,
+                    },
+                    animationDuration: const Duration(milliseconds: 1500),
+                    chartRadius: MediaQuery.of(context).size.width * 0.75,
+                    colorList: const [
+                      Color(0xffDA01C9),
+                    ],
+                    baseChartColor: Color(0xffA14DD3),
+                    degreeOptions:
+                        DegreeOptions(initialAngle: 150, totalDegrees: 240),
+                    legendOptions: const LegendOptions(
+                      showLegends: false,
+                    ),
+                    totalValue: totalSteps,
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValues: false,
+                    ),
+                  ),
+                  PieChart(
+                    dataMap: {
+                      "number": 1,
+                    },
+                    animationDuration: const Duration(milliseconds: 1500),
+                    chartRadius: MediaQuery.of(context).size.width * 0.625,
+                    colorList: [
+                      const Color(0xff7801C1).withOpacity(0.63),
+                    ],
+                    baseChartColor: color.withOpacity(0),
+                    degreeOptions:
+                        DegreeOptions(initialAngle: 150, totalDegrees: 240),
+                    legendOptions: const LegendOptions(
+                      showLegends: false,
+                    ),
+                    totalValue: 1,
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValues: false,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        Jiffy(DateTime.now()).format("do MMMM"),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        _steps,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                PieChart(
-                  dataMap: {
-                    "number": currentSteps,
-                  },
-                  animationDuration: const Duration(milliseconds: 1500),
-                  chartRadius: MediaQuery.of(context).size.width * 0.75,
-                  colorList: const [
-                    Color(0xffDA01C9),
-                  ],
-                  baseChartColor: Color(0xffA14DD3),
-                  degreeOptions:
-                      DegreeOptions(initialAngle: 150, totalDegrees: 240),
-                  legendOptions: const LegendOptions(
-                    showLegends: false,
-                  ),
-                  totalValue: totalSteps,
-                  chartValuesOptions: const ChartValuesOptions(
-                    showChartValues: false,
-                  ),
-                ),
-                PieChart(
-                  dataMap: {
-                    "number": 1,
-                  },
-                  animationDuration: const Duration(milliseconds: 1500),
-                  chartRadius: MediaQuery.of(context).size.width * 0.625,
-                  colorList: [
-                    const Color(0xff7801C1).withOpacity(0.63),
-                  ],
-                  baseChartColor: color.withOpacity(0),
-                  degreeOptions:
-                      DegreeOptions(initialAngle: 150, totalDegrees: 240),
-                  legendOptions: const LegendOptions(
-                    showLegends: false,
-                  ),
-                  totalValue: 1,
-                  chartValuesOptions: const ChartValuesOptions(
-                    showChartValues: false,
-                  ),
-                ),
-                Column(
-                  children: [
-                    Text(
-                      Jiffy(DateTime.now()).format("do MMMM"),
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      _steps,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            Text(
-              'Pedestrian status:',
-              style: TextStyle(fontSize: 30),
-            ),
-            Icon(
-              _status == 'walking'
-                  ? Icons.directions_walk
-                  : _status == 'stopped'
-                      ? Icons.accessibility_new
-                      : Icons.error,
-              size: 100,
-            ),
-            Center(
-              child: Text(
-                _status,
-                style: _status == 'walking' || _status == 'stopped'
-                    ? TextStyle(fontSize: 30)
-                    : TextStyle(fontSize: 20, color: Colors.red),
+              SizedBox(
+                height: 25,
               ),
-            )
-          ],
+              Text(
+                'Current status:',
+                style: TextStyle(
+                    fontSize: 18, color: color, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Icon(
+                _status == 'walking'
+                    ? Icons.directions_walk
+                    : _status == 'stopped'
+                        ? Icons.accessibility_new
+                        : Icons.error,
+                size: 50,
+              ),
+              SizedBox(
+                height: 2,
+              ),
+              Center(
+                child: Text(
+                  _status,
+                  style: _status == 'walking' || _status == 'stopped'
+                      ? TextStyle(fontSize: 12, color: Colors.black38)
+                      : TextStyle(fontSize: 12, color: Colors.red),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
