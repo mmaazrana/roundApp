@@ -43,7 +43,7 @@ class _MoveToEarnScreenState extends State<MoveToEarnScreen> {
                             )),
                         Positioned(
                           left: 15,
-                          top: 75,
+                          top: 30,
                           child: Image.asset(
                             'assets/images/logo.png',
                             width: 175,

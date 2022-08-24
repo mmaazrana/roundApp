@@ -42,7 +42,7 @@ class ChoiceScreen extends StatelessWidget {
                             )),
                         Positioned(
                           left: 15,
-                          top: 60,
+                          top: 10,
                           child: Image.asset(
                             'assets/images/logo.png',
                             width: 175,
