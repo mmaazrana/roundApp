@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:roundapp/screens/splash_screen.dart';
 import 'firebase_options.dart';
+import 'package:flutter_foreground_service/flutter_foreground_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,11 +12,33 @@ Future<void> main() async {
     name: "roundapp",
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  startForegroundService();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+void startForegroundService() async {
+  ForegroundService().start();
+  debugPrint("Started service");
+}
+
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    ForegroundService().stop();
+    super.dispose();
+  }
 
   // This widget is the root of your application.
   @override
